@@ -1,4 +1,4 @@
-#include "digital_in.h"
+#include "digital_in.hpp"
 #include <avr/io.h>
 
 Digital_in::Digital_in(int pin_number) { pin_mask = (1 << pin_number); }

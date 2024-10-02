@@ -1,5 +1,5 @@
-#include <analog_out.h>
-#include <motor_driver.h>
+#include <analog_out.hpp>
+#include <motor_driver.hpp>
 
 Motor_driver::Motor_driver(int pin_number) : pwm(Analog_out(pin_number)) {}
 

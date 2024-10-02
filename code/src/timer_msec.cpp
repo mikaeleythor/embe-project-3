@@ -1,5 +1,5 @@
 #include <avr/interrupt.h>
-#include <timer_msec.h>
+#include <timer_msec.hpp>
 
 Timer_msec::Timer_msec() {}
 

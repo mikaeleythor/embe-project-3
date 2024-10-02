@@ -1,8 +1,8 @@
 #ifndef ENCODER_DRIVER_H
 #define ENCODER_DRIVER_H
-#include "digital_in.h"
-#include "digital_out.h"
-#include "timer_msec.h"
+#include "digital_in.hpp"
+#include "digital_out.hpp"
+#include "timer_msec.hpp"
 
 class Encoder_driver {
 public:

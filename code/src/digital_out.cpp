@@ -1,4 +1,4 @@
-#include "digital_out.h"
+#include "digital_out.hpp"
 #include <avr/io.h>
 
 Digital_out::Digital_out(int pin_number) { pinMask = (1 << pin_number); }

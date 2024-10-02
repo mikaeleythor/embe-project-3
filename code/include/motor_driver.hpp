@@ -1,6 +1,6 @@
 #ifndef MOTOR_DRIVER_H
 #define MOTOR_DRIVER_H
-#include <analog_out.h>
+#include <analog_out.hpp>
 
 class Motor_driver {
 public:

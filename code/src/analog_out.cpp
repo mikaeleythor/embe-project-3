@@ -1,4 +1,4 @@
-#include "analog_out.h"
+#include "analog_out.hpp"
 
 Analog_out::Analog_out(int pin_number)
     : timer(Timer_msec()), pin(Digital_out(pin_number)) {}

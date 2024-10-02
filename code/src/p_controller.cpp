@@ -1,4 +1,4 @@
-#include "P_controller.h"
+#include "p_controller.hpp"
 
 P_controller::P_controller(double Kp_, double max_velocity_) : Kp(Kp_), max_velocity(max_velocity_) {}
 
@@ -14,3 +14,4 @@ double P_controller::update(double ref, double actual) {
     
 
     return pwm;
+}
