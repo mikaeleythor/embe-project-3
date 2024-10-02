@@ -56,3 +56,20 @@ int main() {
     delete context;
   }
 }
+
+ISR(INT0_vect) { encoder.read_state(); }
+ISR(TIMER1_COMPA_vect) {
+  s++;
+  vel = encoder.velocity();
+  Serial.print("Current time: ");
+  Serial.print("Timestamp: ");
+  Serial.print(s);
+  Serial.print(" s , Reference: ");
+  Serial.print(3000);
+  Serial.print(" , Actual: ");
+  Serial.print(vel);
+  Serial.print(" , PWM: ");
+  Serial.println(pwm);
+}
+ISR(TIMER0_COMPA_vect) { motor.pwm_hi(); }
+ISR(TIMER0_COMPB_vect) { motor.pwm_lo(); }
