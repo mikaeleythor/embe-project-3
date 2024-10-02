@@ -1,0 +1,42 @@
+\documentclass{article}
+\input{file-setup.tex}
+% \usepackage{zref}
+% \usepackage{biblatex} %Imports biblatex package
+%\usepackage[backend=biber]{biblatex}
+%\addbibresource{references.bib} %Import the bibliography file
+
+\newcommand{\state}[3]{
+    \begin{figure}[h]
+        \begin{center}
+            \includegraphics[scale=0.5]{#2}
+        \end{center}
+        \caption{#3}\label{fig:state-part-#1}
+    \end{figure}
+}
+
+\newcommand{\impelemtation}[2]{The implementation of #1 is available on github at
+\url{#2}}
+
+\begin{document}
+
+\today \par
+\vspace{.5cm}
+\noindent Háskólinn í Reykjavík, Embedded Systems Programming, \textbf{Project 3 - Dynamic
+	Controller Behavior} \par
+\noindent \textbf{Eyþór Mikael Eyþórsson}, \texttt{eythore19@ru.is}\par
+\noindent \textbf{Vilhjálmur Páll Thorarensen}, \texttt{vilhjalmurt19@ru.is}\par
+%\noindent Instructors: \textbf{TEACHER} \par
+
+\section*{Part 1}
+\state{1}{../code/docs/diagrams/src/state-part1.mmd.png}{
+    State diagram for part 1. Note that it is made directly from the description of the
+    four states, but does not include triggers specified in later parts.
+}
+
+The Initialization and Operational states were implemented along with the triggers for the
+states, specified in the state diagram in Figure~\ref{fig:state-part-1}.
+
+%\newpage
+%\printbibliography
+
+\end{document}
