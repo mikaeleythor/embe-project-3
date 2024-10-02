@@ -5,6 +5,8 @@
 %\usepackage[backend=biber]{biblatex}
 %\addbibresource{references.bib} %Import the bibliography file
 
+\def\partonecommit{https://github.com/mikaeleythor/embe-project-3/blob/d7936fce08715c55a20739b971156213114eb7e9}
+
 \newcommand{\state}[3]{
     \begin{figure}[h]
         \begin{center}
@@ -14,8 +16,8 @@
     \end{figure}
 }
 
-\newcommand{\impelemtation}[2]{The implementation of #1 is available on github at
-\url{#2}}
+\newcommand{\implementation}[2]{The implementation of #1 is available on github
+\href{#2}{here}}
 
 \begin{document}
 
@@ -35,6 +37,7 @@
 
 The Initialization and Operational states were implemented along with the triggers for the
 states, specified in the state diagram in Figure~\ref{fig:state-part-1}.
+\implementation{the states}{\partonecommit/code}.
 
 %\newpage
 %\printbibliography
