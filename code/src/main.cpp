@@ -27,15 +27,7 @@ Context *context;
 int command = 0;
 
 int main() {
-  init();
-  Serial.begin(9600); // Open serial port with baud rate 9600
-  Serial.flush();
-
   context = new Context(new Init_state);
-
-  encoder.init();
-  motor.init(5);
-  motor.set_duty_cycle(90, 0);
 
   while (1) {
     if (Serial.available() > 0) {
