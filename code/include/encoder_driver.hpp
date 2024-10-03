@@ -23,6 +23,6 @@ private:
   int pulse_count;
   int resolution_ms;
   int vel;
-  Timer_msec timer;
+  Timer_msec *timer;
 };
 #endif // ENCODER_DRIVER_H

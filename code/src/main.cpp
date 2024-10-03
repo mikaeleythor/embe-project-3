@@ -7,40 +7,48 @@
 #include <stdlib.h>
 
 // Transition macros
-#define RESET 'r'
-#define SET_PRE_OP 'p'
-#define SET_OP 'o'
+#define CMD_RESET 'r'
+#define CMD_SET_PRE_OP 'p'
+#define CMD_SET_OP 'o'
 
-#define SLEEP_TIME_MS 200
+// Control macros
+#define VELOCITY_CALCULATION_INTERVAL_MS 1
+#define TARGET_VELOCITY 3000
+#define MAX_VELOCITY 3350
+#define CONTROLLER_UPDATE_RATE_MS 4
+#define KP 0.59
 
-// ✅ motor control variables
-P_controller control(0.59, 3350);
-Encoder_driver encoder(1, 2, SLEEP_TIME_MS);
-Motor_driver motor(0);
+// Motor macros
+#define C1_PIN 1
+#define C2_PIN 2
+#define PWM_PIN 0
+#define PWM_UPDATE_RATE_MS 0.05
 
-// int pwm;
-int s = 0;
-volatile float vel = 0;
+// Motor control variables
+P_controller control(KP, MAX_VELOCITY, CONTROLLER_UPDATE_RATE_MS);
+Encoder_driver encoder(C1_PIN, C2_PIN, VELOCITY_CALCULATION_INTERVAL_MS);
+Motor_driver motor(PWM_PIN, PWM_UPDATE_RATE_MS);
 
 // Global context variables
 Context *context;
-int command = 0;
+int pwm_duty_cycle;
+volatile float motor_velocity = 0;
 
 int main() {
+  int command = 0;
   context = new Context(new Init_state, &control, &encoder, &motor);
 
   while (1) {
     if (Serial.available() > 0) {
       command = Serial.read();
-
       switch (command) {
-      case RESET:
+      case CMD_RESET:
         context->reset();
         break;
-      case SET_PRE_OP:
+      case CMD_SET_PRE_OP:
         context->set_pre_op();
         break;
-      case SET_OP:
+      case CMD_SET_OP:
         context->set_op();
         break;
       }
@@ -50,18 +58,20 @@ int main() {
 }
 
 ISR(INT0_vect) { encoder.read_state(); }
-ISR(TIMER1_COMPA_vect) {
-  s++;
-  vel = encoder.velocity();
+ISR(TIMER0_COMPA_vect) {
+  motor_velocity = encoder.velocity();
   Serial.print("Current time: ");
   Serial.print("Timestamp: ");
-  Serial.print(s);
   Serial.print(" s , Reference: ");
-  Serial.print(3000);
+  Serial.print(TARGET_VELOCITY);
   Serial.print(" , Actual: ");
-  Serial.print(vel);
+  Serial.print(motor_velocity);
   Serial.print(" , PWM: ");
   // Serial.println(pwm);
 }
-ISR(TIMER0_COMPA_vect) { motor.pwm_hi(); }
-ISR(TIMER0_COMPB_vect) { motor.pwm_lo(); }
+ISR(TIMER1_COMPA_vect) {
+  pwm_duty_cycle = control.update(TARGET_VELOCITY, motor_velocity);
+  motor.set_duty_cycle(pwm_duty_cycle);
+}
+ISR(TIMER2_COMPA_vect) { motor.pwm_hi(); }
+ISR(TIMER2_COMPB_vect) { motor.pwm_lo(); }
