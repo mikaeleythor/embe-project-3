@@ -38,6 +38,23 @@ void Timer_msec::init(int period_ms, int duty_cycle, int timer_num) {
     TCCR1B |=
         (1 << CS12) | (1 << CS10); // set prescaler to 1024 and start the timer
     break;
+  case 2:
+    OCR2A = (16000000 / 64 - 1) / 1000 * period_ms;
+    if (duty_cycle > 0) {
+      set_duty_cycle(duty_cycle, timer_num);
+    }
+
+    TCCR2A |= (1 << WGM21);
+    // Set to CTC Mode
+
+    TIMSK2 |= (1 << OCIE2A);
+    // Set interrupt on compare match
+
+    TCCR2B |= (1 << CS21);
+    // set prescaler to 64 and starts PWM
+
+    sei();
+    // enable interrupts
   }
 }
 
