@@ -19,7 +19,6 @@ void Init_state::on_entry() {
 	// TODO: Split initialization and start
   encoder.init();
   motor.init();
-  motor.set_duty_cycle(90, 0);
 
   Serial.println("Bootup finished");
   this->context_->transition_to(new Pre_op_state);

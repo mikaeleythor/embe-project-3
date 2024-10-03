@@ -5,7 +5,9 @@
 
 void Op_state::on_do() {};
 
-void Op_state::on_entry() {};
+void Op_state::on_entry() {
+  this->context_->motor->set_duty_cycle(90, 0);
+};
 
 void Op_state::on_exit() {};
 
