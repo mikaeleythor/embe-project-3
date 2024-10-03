@@ -12,7 +12,7 @@
 #define CMD_SET_OP 'o'
 
 // Control macros
-#define VELOCITY_CALCULATION_INTERVAL_MS 1
+#define VELOCITY_UPDATE_RATE_MS 1
 #define TARGET_VELOCITY 3000
 #define MAX_VELOCITY 3350
 #define CONTROLLER_UPDATE_RATE_MS 4
@@ -26,7 +26,7 @@
 
 // Motor control variables
 P_controller control(KP, MAX_VELOCITY, CONTROLLER_UPDATE_RATE_MS);
-Encoder_driver encoder(C1_PIN, C2_PIN, VELOCITY_CALCULATION_INTERVAL_MS);
+Encoder_driver encoder(C1_PIN, C2_PIN, VELOCITY_UPDATE_RATE_MS);
 Motor_driver motor(PWM_PIN, PWM_UPDATE_RATE_MS);
 
 // Global context variables
