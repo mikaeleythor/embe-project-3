@@ -4,7 +4,7 @@ Analog_out::Analog_out(int pin_number)
     : timer(Timer_msec()), pin(Digital_out(pin_number)) {}
 
 void Analog_out::init(int period_ms, int timer_num) {
-  timer.init(period_ms, 100, timer_num);
+  timer.init(period_ms, 0, timer_num);
   pin.init();
 }
 
