@@ -3,6 +3,8 @@
 #include "avr/io.h"
 #include <util/delay.h>
 
+#define ENCODER_TIMER_NUM 0
+
 Encoder_driver::Encoder_driver(int c1_, int c2_, int resolution_ms)
     : led(Digital_out(5)), pos_encoder(Digital_in(c1_)),
       dir_encoder(Digital_in(c2_)), pos_pin_state(0), pos(0), last_pos(0),
@@ -10,7 +12,7 @@ Encoder_driver::Encoder_driver(int c1_, int c2_, int resolution_ms)
 
 void Encoder_driver::init() {
   led.init();
-  timer.init(resolution_ms, 0); // Init timer to interrupt with no duty cycle
+  timer.init(resolution_ms, 0, ENCODER_TIMER_NUM); // Init timer to interrupt with no duty cycle
 
   // TODO: Generalize hardcoded external interrupt setup
   DDRD &= (1 << DDD1);
