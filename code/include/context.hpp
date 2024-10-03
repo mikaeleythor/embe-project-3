@@ -9,17 +9,18 @@ class Context {
   /**
    * @var State A reference to the current state of the Context.
    */
-
-private:
-  State *state_;
+public:
   P_controller *control;
   Encoder_driver *encoder;
   Motor_driver *motor;
 
+private:
+  State *state_;
+
 public:
   Context(State *state, P_controller *control, Encoder_driver *encoder,
           Motor_driver *motor)
-      : state_(nullptr), control(control), encoder(encoder), motor(motor) {
+      : control(control), encoder(encoder), motor(motor), state_(nullptr) {
     this->transition_to(state);
   }
 
