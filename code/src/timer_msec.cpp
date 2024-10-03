@@ -70,5 +70,9 @@ void Timer_msec::set_duty_cycle(int duty_cycle, int timer_num) {
     OCR1B = OCR1A * (float)duty_cycle / 100;
     TIMSK1 |= (1 << OCIE1B); // set interrupt on compare match B
     break;
+  case 2:
+    OCR2B = OCR2A * (float)duty_cycle / 100;
+    TIMSK2 |= (1 << OCIE2B); // set interrupt on compare match B
+    break;
   }
 }
