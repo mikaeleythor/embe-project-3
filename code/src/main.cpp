@@ -13,12 +13,12 @@
 
 #define SLEEP_TIME_MS 200
 
-// Global motor control variables
+// ✅ motor control variables
 P_controller control(0.59, 3350);
 Encoder_driver encoder(1, 2, SLEEP_TIME_MS);
 Motor_driver motor(0);
 
-int pwm;
+// int pwm;
 int s = 0;
 volatile float vel = 0;
 
@@ -27,7 +27,7 @@ Context *context;
 int command = 0;
 
 int main() {
-  context = new Context(new Init_state);
+  context = new Context(new Init_state, &control, &encoder, &motor);
 
   while (1) {
     if (Serial.available() > 0) {
@@ -61,7 +61,7 @@ ISR(TIMER1_COMPA_vect) {
   Serial.print(" , Actual: ");
   Serial.print(vel);
   Serial.print(" , PWM: ");
-  Serial.println(pwm);
+  // Serial.println(pwm);
 }
 ISR(TIMER0_COMPA_vect) { motor.pwm_hi(); }
 ISR(TIMER0_COMPB_vect) { motor.pwm_lo(); }

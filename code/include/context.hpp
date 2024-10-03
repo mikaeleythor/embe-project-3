@@ -1,6 +1,10 @@
 #ifndef CONTEXT_H
 #define CONTEXT_H
+#include "p_controller.hpp"
+#include <encoder_driver.hpp>
+#include <motor_driver.hpp>
 #include <state.hpp>
+
 class Context {
   /**
    * @var State A reference to the current state of the Context.
@@ -8,9 +12,16 @@ class Context {
 
 private:
   State *state_;
+  P_controller *control;
+  Encoder_driver *encoder;
+  Motor_driver *motor;
 
 public:
-  Context(State *state) : state_(nullptr) { this->transition_to(state); }
+  Context(State *state, P_controller *control, Encoder_driver *encoder,
+          Motor_driver *motor)
+      : state_(nullptr), control(control), encoder(encoder), motor(motor) {
+    this->transition_to(state);
+  }
 
   ~Context() { delete state_; }
 
