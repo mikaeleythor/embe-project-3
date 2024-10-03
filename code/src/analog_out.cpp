@@ -8,4 +8,6 @@ void Analog_out::init(int period_ms, int timer_num) {
   pin.init();
 }
 
-void Analog_out::set(int duty_cycle,int timer_num) { timer.set_duty_cycle(duty_cycle,timer_num); }
+void Analog_out::set(int duty_cycle, int timer_num) {
+  timer.set_duty_cycle(duty_cycle, timer_num);
+}

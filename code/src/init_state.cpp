@@ -11,10 +11,12 @@ extern Motor_driver motor;
 void Init_state::on_do() {};
 
 void Init_state::on_entry() {
+	// Initialize Serial
   init();
   Serial.begin(9600); // Open serial port with baud rate 9600
   Serial.flush();
 
+	// TODO: Split initialization and start
   encoder.init();
   motor.init(5);
   motor.set_duty_cycle(90, 0);
