@@ -6,6 +6,7 @@
 
 class Analog_out {
 public:
+	~Analog_out();
   Analog_out(int pin_number);
   void init(float period_ms = 1000, int timer_num = 0);
   void set(int duty_cycle, int timer_num = 0);

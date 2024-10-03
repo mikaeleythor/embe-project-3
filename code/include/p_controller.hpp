@@ -14,6 +14,7 @@ public:
   // Constructor to initialize Kp and the max_velocity (max possible speed in
   // edges/sec)
   P_controller(double Kp_, double max_velocity_, int update_rate_ms);
+	~P_controller();
 
   // Function to compute control law and scale it to a valid PWM range
   double update(double ref, double actual);

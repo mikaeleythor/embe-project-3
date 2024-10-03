@@ -25,3 +25,5 @@ void P_controller::init() {
   timer = new Timer_msec(update_rate_ms, 0, CONTROL_TIMER_NUM);
   timer->init();
 }
+
+P_controller::~P_controller() { delete timer; }

@@ -7,6 +7,7 @@
 class Encoder_driver {
 public:
   Encoder_driver(int c1, int c2, int resolution_ms);
+  ~Encoder_driver();
   int position();
   int count();
   void read_state();
