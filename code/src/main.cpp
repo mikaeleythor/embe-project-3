@@ -18,7 +18,9 @@ Context *context;
 int pwm_duty_cycle;
 volatile float motor_velocity = 0;
 
-int main() { int command = 0; context = new Context(new Init_state);
+int main() {
+  int command = 0;
+  context = new Context(new Init_state);
 
   while (1) {
     if (Serial.available() > 0) {
