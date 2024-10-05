@@ -44,6 +44,7 @@ int main() {
 
 ISR(INT0_vect) { context->encoder->read_state(); }
 ISR(TIMER0_COMPA_vect) {
+	context->led->handle_interval();
   // if (is_op)
   //   motor_velocity = context->encoder->velocity();
   // Serial.print("Current time: ");
