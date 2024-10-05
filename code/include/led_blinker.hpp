@@ -5,7 +5,7 @@
 #include "timer_msec.hpp"
 
 #define LED_PIN 5
-#define LED_TIMER_NUM 0
+#define LED_TIMER_NUM 1
 
 #define ALWAYS_ON 0
 #define ALWAYS_OFF 1

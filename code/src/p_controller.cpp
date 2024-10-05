@@ -1,6 +1,6 @@
 #include "p_controller.hpp"
 
-#define CONTROL_TIMER_NUM 1
+#define CONTROL_TIMER_NUM 0
 
 P_controller::P_controller(double Kp_, double max_velocity_,
                            int update_rate_ms_)
