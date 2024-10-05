@@ -23,7 +23,7 @@
 
 class Init_state : public State {
 
-  void init_();
+  void init_components();
 
   void cleanup();
 

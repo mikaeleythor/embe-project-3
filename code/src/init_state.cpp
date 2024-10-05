@@ -6,7 +6,7 @@
 #include <led_blinker.hpp>
 #include <motor_driver.hpp>
 
-void Init_state::init_() {
+void Init_state::init_components() {
   init();             // Initialize Arduino library
   Serial.begin(9600); // Open serial port with baud rate 9600
   Serial.flush();     // Flush serial buffer
@@ -54,7 +54,7 @@ void Init_state::on_entry() {
   if (this->context_->led != nullptr)
     this->context_->led->set_mode(ALWAYS_OFF);
   this->cleanup();
-  this->init_();
+  this->init_components();
   this->context_->transition_to(new Pre_op_state);
 };
 
