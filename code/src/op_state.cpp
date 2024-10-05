@@ -4,6 +4,7 @@
 #include <pre_op_state.hpp>
 
 extern volatile bool is_op;
+
 void Op_state::on_do() {};
 
 void Op_state::on_entry() {
@@ -17,7 +18,9 @@ void Op_state::on_exit() {
 
 void Op_state::on_reset() { this->context_->transition_to(new Init_state); };
 
-void Op_state::on_set_pre_op() { this->context_->transition_to(new Pre_op_state); };
+void Op_state::on_set_pre_op() {
+  this->context_->transition_to(new Pre_op_state);
+};
 
 void Op_state::on_set_op() {};
 
