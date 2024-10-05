@@ -24,6 +24,7 @@ public:
   void set_bandwidth(int timer_intervals);
 
 	void handle_interval();
+  void set_mode(int mode);
 
 private:
   int timer_interval_ms;
@@ -36,8 +37,5 @@ private:
   /* Updates the count of intervals since last change, toggles LED state and
    * resets counter if updated count is equal to bandwidth */
   void next_interval();
-
-  void set_mode(int mode);
-
 };
 #endif

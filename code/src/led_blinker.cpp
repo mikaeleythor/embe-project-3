@@ -23,7 +23,7 @@ void Led_blinker::next_interval() {
   }
 }
 
-void Led_blinker::set_mode(int mode) {}
+void Led_blinker::set_mode(int mode) { this->mode = mode; }
 
 void Led_blinker::handle_interval() {
   switch (this->mode) {
