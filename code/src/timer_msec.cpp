@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <avr/interrupt.h>
 #include <timer_msec.hpp>
 
@@ -7,15 +8,23 @@ Timer_msec::Timer_msec(float period_ms, int duty_cycle, int timer_num)
     : timer_num(timer_num), period_ms(period_ms), duty_cycle(duty_cycle) {}
 
 void Timer_msec::init() {
+  unsigned int timer_max[] = {0xFF, 0xFFFF, 0xFF};
+  unsigned int prescaler[] = {256, 256, 64};
+  int num_cpu_oscilliations =
+      CPU_FREQ / prescaler[this->timer_num] / 1000 * this->period_ms - 1;
+  if (num_cpu_oscilliations > timer_max[this->timer_num]) {
+    Serial.println("Timer" + String(this->timer_num) + " overflow!");
+  }
+
   switch (this->timer_num) {
   default:
+    Serial.println("Invalid Timer number");
     break;
   case 0:
     // Set the Timer Mode to CTC
     TCCR0A |= (1 << WGM01);
-    // Set the value that you want to count to
-    OCR0A = (CPU_FREQ / 256 - 1) / 1000 * this->period_ms;
     TIMSK0 |= (1 << OCIE0A); // Set the ISR COMPA vect
+    OCR0A = num_cpu_oscilliations;
     if (this->duty_cycle > 0) {
       set_duty_cycle(this->duty_cycle);
     }
@@ -30,7 +39,7 @@ void Timer_msec::init() {
     TCCR1B = 0;
     TCNT1 = 0; // initialize counter value to 0
     // assign target count to compare register A (must be less than 65536)
-    OCR1A = (CPU_FREQ / 1024 - 1) / 1000 * this->period_ms;
+    OCR1A = num_cpu_oscilliations;
     if (this->duty_cycle > 0) {
       set_duty_cycle(this->duty_cycle);
     }
@@ -41,7 +50,7 @@ void Timer_msec::init() {
         (1 << CS12) | (1 << CS10); // set prescaler to 1024 and start the timer
     break;
   case 2:
-    OCR2A = (CPU_FREQ / 64 - 1) / 1000 * this->period_ms;
+    OCR2A = num_cpu_oscilliations;
     if (this->duty_cycle > 0) {
       set_duty_cycle(this->duty_cycle);
     }
