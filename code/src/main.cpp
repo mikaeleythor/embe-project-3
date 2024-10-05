@@ -11,32 +11,14 @@
 #define CMD_SET_PRE_OP 'p'
 #define CMD_SET_OP 'o'
 
-// Control macros
-#define VELOCITY_UPDATE_RATE_MS 1
 #define TARGET_VELOCITY 3000
-#define MAX_VELOCITY 3350
-#define CONTROLLER_UPDATE_RATE_MS 4
-#define KP 0.59
-
-// Motor macros
-#define C1_PIN 1
-#define C2_PIN 2
-#define PWM_PIN 0
-#define PWM_UPDATE_RATE_MS 0.05
-
-// Motor control variables
-P_controller control(KP, MAX_VELOCITY, CONTROLLER_UPDATE_RATE_MS);
-Encoder_driver encoder(C1_PIN, C2_PIN, VELOCITY_UPDATE_RATE_MS);
-Motor_driver motor(PWM_PIN, PWM_UPDATE_RATE_MS);
 
 // Global context variables
 Context *context;
 int pwm_duty_cycle;
 volatile float motor_velocity = 0;
 
-int main() {
-  int command = 0;
-  context = new Context(new Init_state, &control, &encoder, &motor);
+int main() { int command = 0; context = new Context(new Init_state);
 
   while (1) {
     if (Serial.available() > 0) {
@@ -57,9 +39,9 @@ int main() {
   }
 }
 
-ISR(INT0_vect) { encoder.read_state(); }
+ISR(INT0_vect) { context->encoder->read_state(); }
 ISR(TIMER0_COMPA_vect) {
-  motor_velocity = encoder.velocity();
+  motor_velocity = context->encoder->velocity();
   Serial.print("Current time: ");
   Serial.print("Timestamp: ");
   Serial.print(" s , Reference: ");
@@ -70,8 +52,8 @@ ISR(TIMER0_COMPA_vect) {
   // Serial.println(pwm);
 }
 ISR(TIMER1_COMPA_vect) {
-  pwm_duty_cycle = control.update(TARGET_VELOCITY, motor_velocity);
-  motor.set_duty_cycle(pwm_duty_cycle);
+  pwm_duty_cycle = context->control->update(TARGET_VELOCITY, motor_velocity);
+  context->motor->set_duty_cycle(pwm_duty_cycle);
 }
-ISR(TIMER2_COMPA_vect) { motor.pwm_hi(); }
-ISR(TIMER2_COMPB_vect) { motor.pwm_lo(); }
+ISR(TIMER2_COMPA_vect) { context->motor->pwm_hi(); }
+ISR(TIMER2_COMPB_vect) { context->motor->pwm_lo(); }

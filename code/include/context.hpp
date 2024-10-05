@@ -18,9 +18,8 @@ private:
   State *state_;
 
 public:
-  Context(State *state, P_controller *control, Encoder_driver *encoder,
-          Motor_driver *motor)
-      : control(control), encoder(encoder), motor(motor), state_(nullptr) {
+  Context(State *state)
+      : state_(nullptr) {
     this->transition_to(state);
   }
 
