@@ -4,6 +4,7 @@
 #include <encoder_driver.hpp>
 #include <motor_driver.hpp>
 #include <state.hpp>
+#include <led_blinker.hpp>
 
 class Context {
   /**
@@ -13,13 +14,15 @@ public:
   P_controller *control;
   Encoder_driver *encoder;
   Motor_driver *motor;
+  Led_blinker *led;
 
 private:
   State *state_;
 
 public:
   Context(State *state)
-      : control(nullptr), encoder(nullptr), motor(nullptr), state_(nullptr) {
+      : control(nullptr), encoder(nullptr), motor(nullptr), led(nullptr),
+        state_(nullptr) {
     this->transition_to(state);
   }
 
@@ -28,6 +31,7 @@ public:
     delete control;
     delete encoder;
     delete motor;
+    delete led;
   }
 
   /**

@@ -44,8 +44,9 @@ int main() {
 
 ISR(INT0_vect) { context->encoder->read_state(); }
 ISR(TIMER0_COMPA_vect) {
-  if (is_op)
-    motor_velocity = context->encoder->velocity();
+	context->led->handle_interval();
+  // if (is_op)
+  //   motor_velocity = context->encoder->velocity();
   // Serial.print("Current time: ");
   // Serial.print("Timestamp: ");
   // Serial.print(" s , Reference: ");
@@ -57,6 +58,7 @@ ISR(TIMER0_COMPA_vect) {
 }
 ISR(TIMER1_COMPA_vect) {
   if (is_op) {
+    motor_velocity = context->encoder->velocity();
     pwm_duty_cycle = context->control->update(TARGET_VELOCITY, motor_velocity);
     context->motor->set_duty_cycle(pwm_duty_cycle);
   }
