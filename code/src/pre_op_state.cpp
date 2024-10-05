@@ -41,12 +41,14 @@ void Pre_op_state::on_do() {
 }
 
 void Pre_op_state::on_entry() {
-    Serial.println("Please enter a command:");
-    Serial.println("'p' - Set P-controller");
-    Serial.println("'i' - Set PI-controller");
-    Serial.println("'k' - Set KP value");
-    Serial.println("'t' - Set TI value");
-}
+  Serial.println("Please enter a command:");
+  Serial.println("'p' - Set P-controller");
+  Serial.println("'i' - Set PI-controller");
+  Serial.println("'k' - Set KP value");
+  Serial.println("'t' - Set TI value");
+  this->context_->led->set_bandwidth(LED_1HZ_BAND);
+  this->context_->led->set_mode(BLINK);
+};
 
 void Pre_op_state::on_exit() {};
 

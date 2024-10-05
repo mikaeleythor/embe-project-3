@@ -5,7 +5,7 @@
 #include "timer_msec.hpp"
 
 #define LED_PIN 5
-#define LED_TIMER_NUM 0
+#define LED_TIMER_NUM 1
 
 #define ALWAYS_ON 0
 #define ALWAYS_OFF 1
@@ -21,23 +21,22 @@ public:
    * then the LED will change states at 1Hz. If timer_intervals_per_edge is 2,
    * then the LED will change states at 0.5Hz
    * */
-  void update_bandwidth(int timer_intervals);
+  void set_bandwidth(int timer_intervals);
 
-	void handle_interval();
+  void handle_interval();
+
+  void set_mode(int mode);
 
 private:
   int timer_interval_ms;
   int bandwidth;
-  int interval_count;
-	int mode;
+  volatile int interval_count;
+  volatile int mode;
   Digital_out *led;
   Timer_msec *timer;
 
   /* Updates the count of intervals since last change, toggles LED state and
    * resets counter if updated count is equal to bandwidth */
   void next_interval();
-
-  void set_mode(int mode);
-
 };
 #endif

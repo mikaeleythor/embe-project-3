@@ -46,9 +46,6 @@ int main() {
 
 ISR(INT0_vect) { context->encoder->read_state(); }
 ISR(TIMER0_COMPA_vect) {
-  context->led->handle_interval();
-}
-ISR(TIMER1_COMPA_vect) {
   if (is_op) {
     motor_velocity = context->encoder->velocity();
     pwm_duty_cycle = context->control->update(TARGET_VELOCITY, motor_velocity);
@@ -63,6 +60,7 @@ ISR(TIMER1_COMPA_vect) {
     Serial.println(pwm_duty_cycle);
   }
 }
+ISR(TIMER1_COMPA_vect) { context->led->handle_interval(); }
 ISR(TIMER2_COMPA_vect) {
   if (is_op) {
     context->motor->pwm_hi();

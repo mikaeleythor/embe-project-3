@@ -8,10 +8,12 @@ Led_blinker::Led_blinker(int timer_interval_ms,
 
 void Led_blinker::init() {
   this->led = new Digital_out(LED_PIN);
+  this->led->init();
   this->timer = new Timer_msec(this->timer_interval_ms, 0, LED_TIMER_NUM);
+  this->timer->init();
 }
 
-void Led_blinker::update_bandwidth(int timer_intervals) {
+void Led_blinker::set_bandwidth(int timer_intervals) {
   this->bandwidth = timer_intervals;
 }
 
@@ -23,20 +25,20 @@ void Led_blinker::next_interval() {
   }
 }
 
-void Led_blinker::set_mode(int mode) {}
+void Led_blinker::set_mode(int mode) { this->mode = mode; }
 
 void Led_blinker::handle_interval() {
   switch (this->mode) {
   default:
     break;
   case ALWAYS_ON:
-		this->led->set_hi();
+    this->led->set_hi();
     break;
   case ALWAYS_OFF:
-		this->led->set_lo();
+    this->led->set_lo();
     break;
   case BLINK:
-		this->next_interval();
+    this->next_interval();
     break;
   }
 }

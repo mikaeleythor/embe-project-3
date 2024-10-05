@@ -15,10 +15,10 @@ void Op_state::on_do() {
 }
 
 void Op_state::on_entry() {
-    is_op = true;
-    Serial.println("Entering Operational State");
-    // Initialize motor or other components as needed
-}
+	this->context_->led->set_mode(ALWAYS_ON);
+	is_op = true;
+	this->context_->motor->set_duty_cycle(90, 0);
+};
 
 void Op_state::on_exit() {
     is_op = false;
