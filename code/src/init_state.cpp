@@ -20,6 +20,10 @@
 void Init_state::init_() {
   init();             // Initialize Arduino library
   Serial.begin(9600); // Open serial port with baud rate 9600
+  Serial.flush();     // Flush serial buffer
+#ifdef DEBUG
+  Serial.println("Serial initialization finished");
+#endif // DEBUG
 
   // Instantiate context components
   this->context_->encoder =
@@ -28,14 +32,21 @@ void Init_state::init_() {
   this->context_->control =
       new P_controller(KP, MAX_VELOCITY, CONTROLLER_UPDATE_RATE_MS);
 
+#ifdef DEBUG
+  Serial.println("Context component instantiation finished");
+#endif // DEBUG
+
   // Initialize context components
   this->context_->encoder->init();
   this->context_->motor->init();
   this->context_->control->init();
+
+#ifdef DEBUG
+  Serial.println("Context component initialization finished");
+#endif // DEBUG
 };
 
 void Init_state::cleanup() {
-  Serial.flush(); // Flush serial buffer
   delete this->context_->encoder;
   delete this->context_->motor;
   delete this->context_->control;

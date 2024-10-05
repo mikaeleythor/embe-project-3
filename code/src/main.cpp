@@ -37,8 +37,8 @@ int main() {
         break;
       }
     }
-    delete context;
   }
+  delete context;
 }
 
 ISR(INT0_vect) { context->encoder->read_state(); }
