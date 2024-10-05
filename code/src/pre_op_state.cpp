@@ -5,7 +5,10 @@
 
 void Pre_op_state::on_do() {};
 
-void Pre_op_state::on_entry() {};
+void Pre_op_state::on_entry() {
+  this->context_->led->set_bandwidth(LED_1HZ_BAND);
+  this->context_->led->set_mode(BLINK);
+};
 
 void Pre_op_state::on_exit() {};
 

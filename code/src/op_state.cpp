@@ -8,6 +8,7 @@ extern volatile bool is_op;
 void Op_state::on_do() {};
 
 void Op_state::on_entry() {
+	this->context_->led->set_mode(ALWAYS_ON);
 	is_op = true;
 	this->context_->motor->set_duty_cycle(90, 0);
 };
