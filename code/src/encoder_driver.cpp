@@ -3,17 +3,21 @@
 #include "avr/io.h"
 #include <util/delay.h>
 
-#define ENCODER_TIMER_NUM 0
-
 Encoder_driver::Encoder_driver(int c1_, int c2_, int resolution_ms)
-    : led(Digital_out(5)), pos_encoder(Digital_in(c1_)),
-      dir_encoder(Digital_in(c2_)), pos_pin_state(0), pos(0), last_pos(0),
-      pulse_count(0), resolution_ms(resolution_ms), vel(0) {}
+    : pos_encoder(Digital_in(c1_)), dir_encoder(Digital_in(c2_)),
+      pos_pin_state(0), pos(0), last_pos(0), pulse_count(0),
+      resolution_ms(resolution_ms), vel(0), led(nullptr), timer(nullptr) {}
 
 void Encoder_driver::init() {
-  led.init();
+
+#ifdef ENCODER_LED_PIN_NUM
+  led = new Digital_out(ENCODER_LED_PIN_NUM);
+  led->init();
+#endif // ENCODER_LED_PIN_NUM
+#ifdef ENCODER_TIMER_NUM
   timer = new Timer_msec(resolution_ms, 0, ENCODER_TIMER_NUM);
   timer->init(); // Init timer to interrupt with no duty cycle
+#endif           // ENCODER_TIMER_NUM
 
   // TODO: Generalize hardcoded external interrupt setup
   DDRD &= (1 << DDD1);
@@ -24,7 +28,10 @@ void Encoder_driver::init() {
 }
 
 void Encoder_driver::read_state() {
-  led.toggle();
+#ifdef ENCODER_LED_PIN_NUM
+  led->toggle();
+#endif // ENCODER_LED_PIN_NUM
+
   bool new_pos_pin_state = pos_encoder.is_hi(); // 1 if high, 0 if low
 
   bool new_dir_pin_state = dir_encoder.is_hi(); // 1 if high, 0 if low
@@ -61,4 +68,7 @@ float Encoder_driver::velocity() {
   return vel;
 }
 
-Encoder_driver::~Encoder_driver() { delete timer; }
+Encoder_driver::~Encoder_driver() {
+  delete timer;
+  delete led;
+}

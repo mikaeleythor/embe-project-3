@@ -6,7 +6,7 @@
 #include <motor_driver.hpp>
 
 // Control macros
-#define VELOCITY_UPDATE_RATE_MS 2
+#define VELOCITY_UPDATE_RATE_MS 4
 #define MAX_VELOCITY 3350
 #define CONTROLLER_UPDATE_RATE_MS 4
 #define KP 0.59
@@ -21,6 +21,7 @@ void Init_state::init_() {
   init();             // Initialize Arduino library
   Serial.begin(9600); // Open serial port with baud rate 9600
   Serial.flush();     // Flush serial buffer
+
 #ifdef DEBUG
   Serial.println("Serial initialization finished");
 #endif // DEBUG

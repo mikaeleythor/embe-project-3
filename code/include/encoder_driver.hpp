@@ -15,7 +15,6 @@ public:
   float velocity();
 
 private:
-  Digital_out led;
   Digital_in pos_encoder;
   Digital_in dir_encoder;
   int pos_pin_state; // State of position pin
@@ -24,6 +23,7 @@ private:
   int pulse_count;
   int resolution_ms;
   int vel;
+  Digital_out *led;
   Timer_msec *timer;
 };
 #endif // ENCODER_DRIVER_H
