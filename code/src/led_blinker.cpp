@@ -30,13 +30,13 @@ void Led_blinker::handle_interval() {
   default:
     break;
   case ALWAYS_ON:
-		this->led->set_hi();
+    this->led->set_hi();
     break;
   case ALWAYS_OFF:
-		this->led->set_lo();
+    this->led->set_lo();
     break;
   case BLINK:
-		this->next_interval();
+    this->next_interval();
     break;
   }
 }
