@@ -5,6 +5,11 @@
 #define INIT_STATE_H
 
 class Init_state : public State {
+
+  void init();
+
+  void cleanup();
+
   void on_do() override;
 
   void on_entry() override;

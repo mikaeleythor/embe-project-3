@@ -17,28 +17,38 @@
 #define PWM_PIN 0
 #define PWM_UPDATE_RATE_MS 0.05
 
+void Init_state::init() {
+  init();             // Initialize Arduino library
+  Serial.begin(9600); // Open serial port with baud rate 9600
+
+  // Instantiate context components
+  this->context_->control =
+      new P_controller(KP, MAX_VELOCITY, CONTROLLER_UPDATE_RATE_MS);
+  this->context_->encoder =
+      new Encoder_driver(C1_PIN, C2_PIN, VELOCITY_UPDATE_RATE_MS);
+  this->context_->motor = new Motor_driver(PWM_PIN, PWM_UPDATE_RATE_MS);
+
+  // Initialize context components
+  this->context_->encoder->init();
+  this->context_->motor->init();
+  this->context_->control->init();
+};
+
+void Init_state::cleanup() {
+  Serial.flush(); // Flush serial buffer
+  delete this->context_->encoder;
+  delete this->context_->motor;
+  delete this->context_->control;
+};
 void Init_state::on_do() {};
 
 void Init_state::on_entry() {
-  // Initialize Serial
-  init(); // Initialize Arduino library
-  Serial.begin(9600); // Open serial port with baud rate 9600
-  Serial.flush(); // Flush serial buffer
-
-	// Motor control variables
-	this->context_->control = new P_controller(KP, MAX_VELOCITY, CONTROLLER_UPDATE_RATE_MS);
-	this->context_->encoder = new Encoder_driver(C1_PIN, C2_PIN, VELOCITY_UPDATE_RATE_MS);
-	this->context_->motor = new Motor_driver(PWM_PIN, PWM_UPDATE_RATE_MS);
-
-  this->context_->encoder->init();
-  this->context_->motor->init();
-	this->context_->control->init();
-
-  Serial.println("Bootup finished");
+  cleanup();
+  init();
   this->context_->transition_to(new Pre_op_state);
 };
 
-void Init_state::on_exit() {};
+void Init_state::on_exit() { Serial.println("Bootup finished"); };
 
 void Init_state::on_reset() {};
 
