@@ -21,7 +21,7 @@ public:
    * then the LED will change states at 1Hz. If timer_intervals_per_edge is 2,
    * then the LED will change states at 0.5Hz
    * */
-  void update_bandwidth(int timer_intervals);
+  void set_bandwidth(int timer_intervals);
 
 	void handle_interval();
 

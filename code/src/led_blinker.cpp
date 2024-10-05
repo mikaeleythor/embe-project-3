@@ -11,7 +11,7 @@ void Led_blinker::init() {
   this->timer = new Timer_msec(this->timer_interval_ms, 0, LED_TIMER_NUM);
 }
 
-void Led_blinker::update_bandwidth(int timer_intervals) {
+void Led_blinker::set_bandwidth(int timer_intervals) {
   this->bandwidth = timer_intervals;
 }
 
