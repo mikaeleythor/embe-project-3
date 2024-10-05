@@ -21,7 +21,7 @@ void Init_state::init_() {
   this->context_->motor = new Motor_driver(PWM_PIN, PWM_UPDATE_RATE_MS);
   this->context_->control =
       new P_controller(KP, MAX_VELOCITY, CONTROLLER_UPDATE_RATE_MS);
-	this->context_->led = new Led_blinker(LED_TIMER_INTERVAL_MS, 0);
+  this->context_->led = new Led_blinker(LED_TIMER_INTERVAL_MS, 0);
 
 #ifdef DEBUG
   Serial.println("Context component instantiation finished");
@@ -31,6 +31,7 @@ void Init_state::init_() {
   this->context_->encoder->init();
   this->context_->motor->init();
   this->context_->control->init();
+  this->context_->led->init();
 
 #ifdef DEBUG
   Serial.println("Context component initialization finished");
@@ -41,13 +42,17 @@ void Init_state::cleanup() {
   delete this->context_->encoder;
   delete this->context_->motor;
   delete this->context_->control;
+  delete this->context_->led;
   this->context_->encoder = nullptr;
   this->context_->motor = nullptr;
   this->context_->control = nullptr;
+  this->context_->led = nullptr;
 };
 void Init_state::on_do() {};
 
 void Init_state::on_entry() {
+  if (this->context_->led != nullptr)
+    this->context_->led->set_mode(ALWAYS_OFF);
   this->cleanup();
   this->init_();
   this->context_->transition_to(new Pre_op_state);
