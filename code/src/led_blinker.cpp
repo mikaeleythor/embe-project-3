@@ -8,7 +8,9 @@ Led_blinker::Led_blinker(int timer_interval_ms,
 
 void Led_blinker::init() {
   this->led = new Digital_out(LED_PIN);
+  this->led->init();
   this->timer = new Timer_msec(this->timer_interval_ms, 0, LED_TIMER_NUM);
+  this->timer->init();
 }
 
 void Led_blinker::set_bandwidth(int timer_intervals) {
