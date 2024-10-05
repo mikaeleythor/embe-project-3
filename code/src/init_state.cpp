@@ -6,7 +6,7 @@
 #include <motor_driver.hpp>
 
 // Control macros
-#define VELOCITY_UPDATE_RATE_MS 1
+#define VELOCITY_UPDATE_RATE_MS 2
 #define MAX_VELOCITY 3350
 #define CONTROLLER_UPDATE_RATE_MS 4
 #define KP 0.59
@@ -15,7 +15,7 @@
 #define C1_PIN 1
 #define C2_PIN 2
 #define PWM_PIN 0
-#define PWM_UPDATE_RATE_MS 0.05
+#define PWM_UPDATE_RATE_MS 1
 
 void Init_state::init_() {
   init();             // Initialize Arduino library
