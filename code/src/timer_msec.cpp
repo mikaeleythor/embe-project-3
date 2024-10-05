@@ -19,9 +19,8 @@ void Timer_msec::init() {
     if (this->duty_cycle > 0) {
       set_duty_cycle(this->duty_cycle);
     }
-    sei(); // enable interrupts
-    TCCR0B |= (1 << CS02);
-    // set prescaler to 256 and start the timer
+    sei();                 // enable interrupts
+    TCCR0B |= (1 << CS02); // set prescaler to 256 and start the timer
     break;
   case 1:
     // this code sets up timer1 for a 1s @ 16Mhz Clock (mode 4)
@@ -42,8 +41,8 @@ void Timer_msec::init() {
         (1 << CS12) | (1 << CS10); // set prescaler to 1024 and start the timer
     break;
   case 2:
-    OCR2A = (CPU_FREQ / 64 - 1) / 1000 * period_ms;
-    if (duty_cycle > 0) {
+    OCR2A = (CPU_FREQ / 64 - 1) / 1000 * this->period_ms;
+    if (this->duty_cycle > 0) {
       set_duty_cycle(this->duty_cycle);
     }
 
@@ -58,6 +57,7 @@ void Timer_msec::init() {
 
     sei();
     // enable interrupts
+    break;
   }
 }
 
