@@ -17,6 +17,7 @@
 Context *context;
 int pwm_duty_cycle;
 volatile float motor_velocity = 0;
+volatile bool is_op = false;
 
 int main() {
   int command = 0;
@@ -37,25 +38,34 @@ int main() {
         break;
       }
     }
-    delete context;
   }
+  delete context;
 }
 
 ISR(INT0_vect) { context->encoder->read_state(); }
 ISR(TIMER0_COMPA_vect) {
-  motor_velocity = context->encoder->velocity();
-  Serial.print("Current time: ");
-  Serial.print("Timestamp: ");
-  Serial.print(" s , Reference: ");
-  Serial.print(TARGET_VELOCITY);
-  Serial.print(" , Actual: ");
-  Serial.print(motor_velocity);
-  Serial.print(" , PWM: ");
+  if (is_op)
+    motor_velocity = context->encoder->velocity();
+  // Serial.print("Current time: ");
+  // Serial.print("Timestamp: ");
+  // Serial.print(" s , Reference: ");
+  // Serial.print(TARGET_VELOCITY);
+  // Serial.print(" , Actual: ");
+  // Serial.print(motor_velocity);
+  // Serial.print(" , PWM: ");
   // Serial.println(pwm);
 }
 ISR(TIMER1_COMPA_vect) {
-  pwm_duty_cycle = context->control->update(TARGET_VELOCITY, motor_velocity);
-  context->motor->set_duty_cycle(pwm_duty_cycle);
+  if (is_op) {
+    pwm_duty_cycle = context->control->update(TARGET_VELOCITY, motor_velocity);
+    context->motor->set_duty_cycle(pwm_duty_cycle);
+  }
 }
-ISR(TIMER2_COMPA_vect) { context->motor->pwm_hi(); }
-ISR(TIMER2_COMPB_vect) { context->motor->pwm_lo(); }
+ISR(TIMER2_COMPA_vect) {
+  if (is_op)
+    context->motor->pwm_hi();
+}
+ISR(TIMER2_COMPB_vect) {
+  if (is_op)
+    context->motor->pwm_lo();
+}

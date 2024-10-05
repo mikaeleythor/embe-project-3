@@ -19,11 +19,16 @@ private:
 
 public:
   Context(State *state)
-      : state_(nullptr) {
+      : control(nullptr), encoder(nullptr), motor(nullptr), state_(nullptr) {
     this->transition_to(state);
   }
 
-  ~Context() { delete state_; }
+  ~Context() {
+    delete state_;
+    delete control;
+    delete encoder;
+    delete motor;
+  }
 
   /**
    * The Context allows changing the State object at runtime.

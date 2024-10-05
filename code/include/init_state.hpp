@@ -6,7 +6,7 @@
 
 class Init_state : public State {
 
-  void init();
+  void init_();
 
   void cleanup();
 
