@@ -17,16 +17,16 @@
 #define PWM_PIN 0
 #define PWM_UPDATE_RATE_MS 0.05
 
-void Init_state::init() {
+void Init_state::init_() {
   init();             // Initialize Arduino library
   Serial.begin(9600); // Open serial port with baud rate 9600
 
   // Instantiate context components
-  this->context_->control =
-      new P_controller(KP, MAX_VELOCITY, CONTROLLER_UPDATE_RATE_MS);
   this->context_->encoder =
       new Encoder_driver(C1_PIN, C2_PIN, VELOCITY_UPDATE_RATE_MS);
   this->context_->motor = new Motor_driver(PWM_PIN, PWM_UPDATE_RATE_MS);
+  this->context_->control =
+      new P_controller(KP, MAX_VELOCITY, CONTROLLER_UPDATE_RATE_MS);
 
   // Initialize context components
   this->context_->encoder->init();
@@ -39,12 +39,15 @@ void Init_state::cleanup() {
   delete this->context_->encoder;
   delete this->context_->motor;
   delete this->context_->control;
+  this->context_->encoder = nullptr;
+  this->context_->motor = nullptr;
+  this->context_->control = nullptr;
 };
 void Init_state::on_do() {};
 
 void Init_state::on_entry() {
-  cleanup();
-  init();
+  this->cleanup();
+  this->init_();
   this->context_->transition_to(new Pre_op_state);
 };
 
