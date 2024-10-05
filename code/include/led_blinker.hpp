@@ -23,14 +23,15 @@ public:
    * */
   void set_bandwidth(int timer_intervals);
 
-	void handle_interval();
+  void handle_interval();
+
   void set_mode(int mode);
 
 private:
   int timer_interval_ms;
   int bandwidth;
-  int interval_count;
-	int mode;
+  volatile int interval_count;
+  volatile int mode;
   Digital_out *led;
   Timer_msec *timer;
 
