@@ -21,15 +21,16 @@ void Timer_msec::init() {
     Serial.println("Invalid Timer number");
     break;
   case 0:
-    // Set the Timer Mode to CTC
-    TCCR0A |= (1 << WGM01);
-    TIMSK0 |= (1 << OCIE0A); // Set the ISR COMPA vect
     OCR0A = num_cpu_oscilliations;
     if (this->duty_cycle > 0) {
       set_duty_cycle(this->duty_cycle);
     }
-    sei();                 // enable interrupts
-    TCCR0B |= (1 << CS02); // set prescaler to 256 and start the timer
+
+    TCCR0A |= (1 << WGM01);  // Set to CTC Mode
+    TIMSK0 |= (1 << OCIE0A); // Set interrupt on compare match
+    sei();                   // enable interrupts
+    TCCR0B |= (1 << CS02);   // set prescaler to 256 and starts PWM
+
     break;
   case 1:
     // this code sets up timer1 for a 1s @ 16Mhz Clock (mode 4)
@@ -46,8 +47,7 @@ void Timer_msec::init() {
     TCCR1B |= (1 << WGM12);  // clear the timer on compare match A
     TIMSK1 |= (1 << OCIE1A); // set interrupt on compare match A
     sei();                   // enable interrupts
-    TCCR1B |=
-        (1 << CS12) | (1 << CS10); // set prescaler to 1024 and start the timer
+    TCCR1B |= (1 << CS12);   // set prescaler to 256 and start the timer
     break;
   case 2:
     OCR2A = num_cpu_oscilliations;
@@ -55,24 +55,17 @@ void Timer_msec::init() {
       set_duty_cycle(this->duty_cycle);
     }
 
-    TCCR2A |= (1 << WGM21);
-    // Set to CTC Mode
-
-    TIMSK2 |= (1 << OCIE2A);
-    // Set interrupt on compare match
-
-    TCCR2B |= (1 << CS21);
-    // set prescaler to 64 and starts PWM
-
-    sei();
-    // enable interrupts
+    TCCR2A |= (1 << WGM21);  // Set to CTC Mode
+    TIMSK2 |= (1 << OCIE2A); // Set interrupt on compare match
+    sei();                   // enable interrupts
+    TCCR2B |= (1 << CS22);   // set prescaler to 64 and starts PWM
     break;
   }
 }
 
 void Timer_msec::set_duty_cycle(int duty_cycle) {
   this->duty_cycle = duty_cycle;
-  switch (timer_num) {
+  switch (this->timer_num) {
   default:
     break;
   case 0:
