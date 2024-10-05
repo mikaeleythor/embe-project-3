@@ -63,7 +63,7 @@ void Timer_msec::init() {
 
 void Timer_msec::set_duty_cycle(int duty_cycle) {
   this->duty_cycle = duty_cycle;
-  switch (timer_num) {
+  switch (this->timer_num) {
   default:
     break;
   case 0:

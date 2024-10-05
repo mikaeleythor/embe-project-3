@@ -33,7 +33,7 @@ void Init_state::init_() {
   // Instantiate context components
   this->context_->encoder =
       new Encoder_driver(C1_PIN, C2_PIN, VELOCITY_UPDATE_RATE_MS);
-  this->context_->motor = new Motor_driver(PWM_PIN, PWM_UPDATE_RATE_MS);
+  this->context_->motor = new Motor_driver(PWM_PIN, PWM_UPDATE_RATE_MS, this->context_->control);
   this->context_->control =
       new P_controller(KP, MAX_VELOCITY, CONTROLLER_UPDATE_RATE_MS);
 	this->context_->led = new Led_blinker(LED_TIMER_INTERVAL_MS, 0);

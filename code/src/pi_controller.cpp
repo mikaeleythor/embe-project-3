@@ -1,4 +1,5 @@
 #include "pi_controller.hpp"
+#include "constants.hpp" // Include the constants header
 
 PI_Controller::PI_Controller(double Kp_, double Ki_, double max_velocity_, int update_rate_ms_)
     : P_controller(Kp_, max_velocity_, update_rate_ms_), Ki(Ki_), integral(0) {}
@@ -10,21 +11,21 @@ void PI_Controller::init() {
 
 double PI_Controller::update(double ref, double actual) {
     double error = ref - actual;
-    integral += error * (update_rate_ms / 1000.0); // Scale by time step
+    integral += error * (P_controller::getUpdateRateMs() / 1000.0); // Scale by time step
 
-    double control_signal = Kp * error + Ki * integral;
+    // Use the global KP and TI values
+    double control_signal = KP * error + (KI / TI) * integral;
 
-    // Use the new method to apply saturation and prevent windup
     return applySaturation(control_signal, error);
 }
 
 double PI_Controller::applySaturation(double control_signal, double error) {
     if (control_signal > 255) {
         control_signal = 255;
-        integral -= error * (update_rate_ms / 1000.0); // Prevent windup
+        integral -= error * (P_controller::getUpdateRateMs() / 1000.0); // Prevent windup
     } else if (control_signal < 0) {
         control_signal = 0;
-        integral -= error * (update_rate_ms / 1000.0); // Prevent windup
+        integral -= error * (P_controller::getUpdateRateMs() / 1000.0); // Prevent windup
     }
     return control_signal;
 }
