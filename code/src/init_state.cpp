@@ -3,6 +3,7 @@
 #include <context.hpp>
 #include <encoder_driver.hpp>
 #include <init_state.hpp>
+#include <fault_state.hpp>
 #include <led_blinker.hpp>
 #include <motor_driver.hpp>
 
@@ -22,7 +23,7 @@ void Init_state::init_components() {
   this->context_->control =
       new P_controller(KP, MAX_VELOCITY, CONTROLLER_UPDATE_RATE_MS);
   this->context_->led = new Led_blinker(LED_TIMER_INTERVAL_MS, 0);
-	this->context_->button = new Digital_in(BUTTON_PIN);
+  this->context_->button = new Digital_in(BUTTON_PIN);
 
 #ifdef DEBUG
   Serial.println("Context component instantiation finished");
@@ -70,6 +71,8 @@ void Init_state::on_set_pre_op() {};
 
 void Init_state::on_set_op() {};
 
-void Init_state::on_set_fault() {};
+void Init_state::on_set_fault() {
+  this->context_->transition_to(new Fault_state);
+};
 
 String Init_state::get_name() { return this->name; };
