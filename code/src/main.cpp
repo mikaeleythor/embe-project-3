@@ -24,6 +24,9 @@ int main() {
   context = new Context(new Init_state);
 
   while (1) {
+    if (context->button->is_hi()) {
+      context->set_fault();
+    }
     if (Serial.available() > 0) {
       command = Serial.read();
       switch (command) {

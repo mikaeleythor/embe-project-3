@@ -22,6 +22,7 @@ void Init_state::init_components() {
   this->context_->control =
       new P_controller(KP, MAX_VELOCITY, CONTROLLER_UPDATE_RATE_MS);
   this->context_->led = new Led_blinker(LED_TIMER_INTERVAL_MS, 0);
+	this->context_->button = new Digital_in(BUTTON_PIN);
 
 #ifdef DEBUG
   Serial.println("Context component instantiation finished");
@@ -32,6 +33,7 @@ void Init_state::init_components() {
   this->context_->motor->init();
   this->context_->control->init();
   this->context_->led->init();
+  this->context_->button->init();
 
 #ifdef DEBUG
   Serial.println("Context component initialization finished");
@@ -43,10 +45,12 @@ void Init_state::cleanup() {
   delete this->context_->motor;
   delete this->context_->control;
   delete this->context_->led;
+  delete this->context_->button;
   this->context_->encoder = nullptr;
   this->context_->motor = nullptr;
   this->context_->control = nullptr;
   this->context_->led = nullptr;
+  this->context_->button = nullptr;
 };
 void Init_state::on_do() {};
 
@@ -65,5 +69,7 @@ void Init_state::on_reset() {};
 void Init_state::on_set_pre_op() {};
 
 void Init_state::on_set_op() {};
+
+void Init_state::on_set_fault() {};
 
 String Init_state::get_name() { return this->name; };

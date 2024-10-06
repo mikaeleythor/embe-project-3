@@ -25,6 +25,8 @@ public:
 
   virtual void on_set_op() = 0;
 
+  virtual void on_set_fault() = 0;
+
   virtual String get_name() = 0;
 
   String name = "Base";

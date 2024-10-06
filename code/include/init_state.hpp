@@ -16,6 +16,7 @@
 #define C2_PIN 2
 #define PWM_PIN 0
 #define PWM_UPDATE_RATE_MS 1
+#define BUTTON_PIN 7
 
 #define LED_TIMER_INTERVAL_MS 250
 #define LED_2HZ_BAND 1
@@ -38,6 +39,8 @@ class Init_state : public State {
   void on_set_pre_op() override;
 
   void on_set_op() override;
+
+	void on_set_fault() override;
 
   String get_name() override;
 

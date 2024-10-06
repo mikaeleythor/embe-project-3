@@ -1,10 +1,11 @@
-#ifndef PRE_OP_STATE_H
+#ifndef FAULT_STATE_H
 
 #include <state.hpp>
 
-#define PRE_OP_STATE_H
+#define FAULT_STATE_H
 
-class Pre_op_state : public State {
+class Fault_state : public State {
+
   void on_do() override;
 
   void on_entry() override;
@@ -21,7 +22,7 @@ class Pre_op_state : public State {
 
   String get_name() override;
 
-  String name = "Pre-operational";
+  String name = "Fault";
 };
 
-#endif // !PRE_OP_STATE_H
+#endif // !FAULT_STATE_H

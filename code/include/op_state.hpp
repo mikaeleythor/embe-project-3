@@ -17,6 +17,8 @@ class Op_state : public State {
 
   void on_set_op() override;
 
+	void on_set_fault() override;
+
   String get_name() override;
 
   String name = "Operational";

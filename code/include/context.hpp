@@ -2,9 +2,9 @@
 #define CONTEXT_H
 #include "p_controller.hpp"
 #include <encoder_driver.hpp>
+#include <led_blinker.hpp>
 #include <motor_driver.hpp>
 #include <state.hpp>
-#include <led_blinker.hpp>
 
 class Context {
   /**
@@ -15,6 +15,7 @@ public:
   Encoder_driver *encoder;
   Motor_driver *motor;
   Led_blinker *led;
+  Digital_in *button;
 
 private:
   State *state_;
@@ -22,7 +23,7 @@ private:
 public:
   Context(State *state)
       : control(nullptr), encoder(nullptr), motor(nullptr), led(nullptr),
-        state_(nullptr) {
+        button(nullptr), state_(nullptr) {
     this->transition_to(state);
   }
 
@@ -60,5 +61,6 @@ public:
   void reset() { this->state_->on_reset(); }
   void set_pre_op() { this->state_->on_set_pre_op(); }
   void set_op() { this->state_->on_set_op(); }
+  void set_fault() { this->state_->on_set_fault(); }
 };
 #endif // CONTEXT_H
