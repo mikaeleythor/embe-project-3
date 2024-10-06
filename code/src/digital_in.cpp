@@ -5,6 +5,7 @@ Digital_in::Digital_in(int pin_number) { pin_mask = (1 << pin_number); }
 
 void Digital_in::init() {
   DDRD &= pin_mask; // Data direction register set to input
+	PORTD |= pin_mask; // Enable internal pull-up resistor
 }
 
 bool Digital_in::is_hi() {
