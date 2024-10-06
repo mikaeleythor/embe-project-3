@@ -1,4 +1,7 @@
+#include <Arduino.h>
 #include <led_blinker.hpp>
+
+// #define DEBUG
 
 Led_blinker::Led_blinker(int timer_interval_ms,
                          int bandwidth_in_timer_intervals)
@@ -11,6 +14,10 @@ void Led_blinker::init() {
   this->led->init();
   this->timer = new Timer_msec(this->timer_interval_ms, 0, LED_TIMER_NUM);
   this->timer->init();
+#ifdef DEBUG
+  Serial.println("Led timer initialization finished with ms: " +
+                 String(this->timer_interval_ms));
+#endif // DEBUG
 }
 
 void Led_blinker::set_bandwidth(int timer_intervals) {
