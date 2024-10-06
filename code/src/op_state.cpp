@@ -14,7 +14,10 @@ void Op_state::on_entry() {
   this->context_->motor->set_duty_cycle(90, 0);
 };
 
-void Op_state::on_exit() { is_op = false; };
+void Op_state::on_exit() {
+  is_op = false;
+  this->context_->motor->pwm_lo();
+};
 
 void Op_state::on_reset() { this->context_->transition_to(new Init_state); };
 
