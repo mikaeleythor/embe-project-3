@@ -1,4 +1,5 @@
 #include "p_controller.hpp"
+#include "constants.hpp" // Include the constants header
 
 #define CONTROL_TIMER_NUM 0
 
@@ -25,5 +26,9 @@ void P_controller::init() {
   timer = new Timer_msec(update_rate_ms, 0, CONTROL_TIMER_NUM);
   timer->init();
 }
+
+double P_controller::getKp() { return Kp; }
+double P_controller::getMaxVelocity() { return max_velocity; }
+int P_controller::getUpdateRateMs() { return update_rate_ms; }
 
 P_controller::~P_controller() { delete timer; }

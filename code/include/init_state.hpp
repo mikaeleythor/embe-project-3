@@ -1,14 +1,13 @@
 #ifndef INIT_STATE_H
 
 #include <state.hpp>
-
+#include "constants.hpp"
 #define INIT_STATE_H
 
 // Control macros
 #define VELOCITY_UPDATE_RATE_MS 4
 #define MAX_VELOCITY 3350
 #define CONTROLLER_UPDATE_RATE_MS 4
-#define KP 0.59
 
 // Motor macros
 #define LED_PIN 5

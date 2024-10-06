@@ -13,6 +13,10 @@ private:
 public:
   // Constructor to initialize Kp and the max_velocity (max possible speed in
   // edges/sec)
+  double getKp();
+  double getMaxVelocity();
+  int getUpdateRateMs();
+  
   P_controller(double Kp_, double max_velocity_, int update_rate_ms);
 	~P_controller();
 

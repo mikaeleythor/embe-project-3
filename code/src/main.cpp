@@ -11,7 +11,7 @@
 #define CMD_SET_PRE_OP 'p'
 #define CMD_SET_OP 'o'
 
-#define TARGET_VELOCITY 3000
+#define TARGET_VELOCITY 1000
 
 // Global context variables
 Context *context;
@@ -41,6 +41,8 @@ int main() {
         break;
       }
     }
+    // Call on_do() for the current state
+    context->do_work();
   }
   delete context;
 }
@@ -51,14 +53,24 @@ ISR(TIMER0_COMPA_vect) {
     motor_velocity = context->encoder->velocity();
     pwm_duty_cycle = context->control->update(TARGET_VELOCITY, motor_velocity);
     context->motor->set_duty_cycle(pwm_duty_cycle);
+    Serial.print("Current time: ");
+    Serial.print("Timestamp: ");
+    Serial.print(" s , Reference: ");
+    Serial.print(TARGET_VELOCITY);
+    Serial.print(" , Actual: ");
+    Serial.print(motor_velocity);
+    Serial.print(" , PWM: ");
+    Serial.println(pwm_duty_cycle);
   }
 }
 ISR(TIMER1_COMPA_vect) { context->led->handle_interval(); }
 ISR(TIMER2_COMPA_vect) {
-  if (is_op)
+  if (is_op) {
     context->motor->pwm_hi();
+  }
 }
 ISR(TIMER2_COMPB_vect) {
-  if (is_op)
+  if (is_op) {
     context->motor->pwm_lo();
+  }
 }

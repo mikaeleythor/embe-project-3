@@ -57,10 +57,15 @@ public:
    * The Context delegates part of its behavior to the current State object.
    */
 
-  // void do_work() { this->state_->on_do(); }
   void reset() { this->state_->on_reset(); }
   void set_pre_op() { this->state_->on_set_pre_op(); }
   void set_op() { this->state_->on_set_op(); }
   void set_fault() { this->state_->on_set_fault(); }
+
+  void do_work() { 
+    if (this->state_ != nullptr) {
+      this->state_->on_do(); 
+    }
+  }
 };
 #endif // CONTEXT_H
