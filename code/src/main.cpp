@@ -11,8 +11,6 @@
 #define CMD_SET_PRE_OP 'p'
 #define CMD_SET_OP 'o'
 
-#define TARGET_VELOCITY 1000
-
 // Global context variables
 Context *context;
 int pwm_duty_cycle;
